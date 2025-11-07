@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: true,
-  },
+  // Les Server Actions sont maintenant activées par défaut dans Next.js 14
   images: {
     domains: [
       'res.cloudinary.com',
