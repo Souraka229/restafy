@@ -48,24 +48,22 @@ export const Modal: React.FC<ModalProps> = ({
               className={`bg-white rounded-2xl shadow-2xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-hidden`}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header */}
-              {(title || onClose) && (
-                <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                  {title && (
-                    <h2 className="font-heading font-semibold text-xl text-primary-black">
-                      {title}
-                    </h2>
-                  )}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={onClose}
-                    className="rounded-full"
-                  >
-                    <X className="w-5 h-5" />
-                  </Button>
-                </div>
-              )}
+              {/* Header - Toujours affiché avec bouton fermer */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                {title && (
+                  <h2 className="font-heading font-semibold text-xl text-primary-black">
+                    {title}
+                  </h2>
+                )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={onClose}
+                  className="rounded-full ml-auto"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
               
               {/* Content */}
               <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
