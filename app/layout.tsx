@@ -5,11 +5,14 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import FloatingCart from '@/components/FloatingCart'
 
-// Font principale via next/font pour fiabilité
-const inter = Inter({
+// Utiliser seulement Inter comme font principale (plus fiable)
+const inter = Inter({ 
   subsets: ['latin'],
   variable: '--font-sans',
 })
+
+// Pour les fonts Poppins et Playfair, on utilisera des fallbacks CSS
+// ou on les chargera via CDN dans le head
 
 export const metadata: Metadata = {
   title: 'Restafy - Plateforme Premium de Restaurants',
@@ -24,7 +27,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL('https://restafy.vercel.app'),
-  alternates: { canonical: '/' },
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
@@ -61,21 +66,24 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="fr" className={inter.variable}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
         <meta name="theme-color" content="#FF7A00" />
-
-        {/* Fonts via Google Fonts CDN */}
+        
+        {/* Charger les fonts via CDN pour plus de fiabilité */}
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
-
-        {/* Service Worker */}
+        
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -91,7 +99,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans antialiased bg-primary-cream">
         <div className="min-h-screen flex flex-col">
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">
+            {children}
+          </main>
           <Footer />
           <FloatingCart />
         </div>
