@@ -33,3 +33,9 @@
     }
   ]
 }
+{
+  "github": {
+    "silent": true,
+    "autoAlias": false
+  }
+}
