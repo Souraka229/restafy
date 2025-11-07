@@ -15,17 +15,22 @@ export default function Footer() {
               <span className="font-heading font-bold text-2xl">Restafy</span>
             </Link>
             <p className="text-gray-400 mb-6 max-w-md">
-              La plateforme premium qui transforme l'excellence culinaire en succès digital. 
-              Rejoignez l'élite des restaurants en ligne.
+              Restafy est une plateforme premium développée par <strong>ForceConnect</strong> 
+              pour propulser les restaurants du Bénin dans l’univers digital. 
+              Offrez une expérience culinaire de prestige, optimisée et connectée.
             </p>
-            <div className="flex space-x-4">
-              <div className="flex items-center space-x-2 text-gray-400">
-                <Mail className="w-4 h-4" />
-                <span>contact@restafy.com</span>
-              </div>
+            <div className="flex flex-col space-y-3">
               <div className="flex items-center space-x-2 text-gray-400">
                 <Phone className="w-4 h-4" />
-                <span>+33 1 23 45 67 89</span>
+                <span>+229 01 55 53 08 26</span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-400">
+                <Mail className="w-4 h-4" />
+                <span>contact@forceconnect.tech</span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-400">
+                <MapPin className="w-4 h-4" />
+                <span>Parakou, Bénin</span>
               </div>
             </div>
           </div>
@@ -55,10 +60,11 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Restafy. Tous droits réservés.
+            © 2025 Restafy — Tous droits réservés.
           </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <span className="text-gray-400 text-sm">Premium Restaurant Platform</span>
+          <div className="flex flex-col items-center md:items-end space-y-1 mt-4 md:mt-0">
+            <span className="text-gray-400 text-sm">Plateforme Restaurant Premium</span>
+            <span className="text-gray-500 text-xs italic">ForceConnect by SH</span>
           </div>
         </div>
       </div>
