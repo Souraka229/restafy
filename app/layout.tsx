@@ -1,24 +1,14 @@
 import type { Metadata } from 'next'
-import { Inter, Poppins, Playfair_Display } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import FloatingCart from '@/components/FloatingCart'
 
-const inter = Inter({ 
+// Font principale via next/font pour fiabilité
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
-})
-
-const poppins = Poppins({
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-heading',
-})
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-accent',
 })
 
 export const metadata: Metadata = {
@@ -34,9 +24,7 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL('https://restafy.vercel.app'),
-  alternates: {
-    canonical: '/',
-  },
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
@@ -71,22 +59,23 @@ export const metadata: Metadata = {
     },
   },
   manifest: '/manifest.json',
-  verification: {
-    google: 'your-google-verification-code',
-  },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${poppins.variable} ${playfair.variable}`}>
+    <html lang="fr" className={inter.variable}>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
         <meta name="theme-color" content="#FF7A00" />
+
+        {/* Fonts via Google Fonts CDN */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
+
+        {/* Service Worker */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -102,9 +91,7 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-primary-cream">
         <div className="min-h-screen flex flex-col">
           <Navbar />
-          <main className="flex-1">
-            {children}
-          </main>
+          <main className="flex-1">{children}</main>
           <Footer />
           <FloatingCart />
         </div>
