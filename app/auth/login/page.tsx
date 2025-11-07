@@ -3,20 +3,53 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
-import { Mail, Lock, Eye, EyeOff, Github, Chrome } from 'lucide-react'
+import { useAuth } from '@/hooks/useAuth'
+import { Mail, Lock, Eye, EyeOff, Github, Chrome, AlertCircle } from 'lucide-react'
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  
+  const { signIn } = useAuth()
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
-    // Implémentation de l'authentification Supabase
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    setIsLoading(false)
+    setError('')
+    setLoading(true)
+
+    try {
+      const { data, error } = await signIn(email, password)
+      
+      if (error) {
+        setError(error.message)
+      } else if (data.user) {
+        router.push('/dashboard')
+      }
+    } catch (err) {
+      setError('Une erreur est survenue')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+    
+    if (error) {
+      setError(error.message)
+    }
   }
 
   return (
@@ -46,6 +79,18 @@ export default function LoginPage() {
             </p>
           </div>
 
+          {/* Message d'erreur */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 p-3 mb-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm"
+            >
+              <AlertCircle className="w-4 h-4" />
+              {error}
+            </motion.div>
+          )}
+
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -58,6 +103,8 @@ export default function LoginPage() {
                   id="email"
                   type="email"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-orange focus:border-transparent transition-all duration-200"
                   placeholder="votre@email.com"
                 />
@@ -74,6 +121,8 @@ export default function LoginPage() {
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-orange focus:border-transparent transition-all duration-200"
                   placeholder="Votre mot de passe"
                 />
@@ -102,10 +151,10 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              disabled={isLoading}
-              className="w-full bg-primary-orange hover:bg-orange-600 py-3 text-lg font-medium"
+              disabled={loading}
+              className="w-full bg-primary-orange hover:bg-orange-600 py-3 text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Connexion...' : 'Se connecter'}
+              {loading ? 'Connexion...' : 'Se connecter'}
             </Button>
           </form>
 
@@ -124,6 +173,8 @@ export default function LoginPage() {
             <Button
               variant="outline"
               className="w-full border-gray-300 hover:bg-gray-50"
+              onClick={handleGoogleLogin}
+              disabled={loading}
             >
               <Chrome className="w-5 h-5 mr-2" />
               Google
@@ -131,9 +182,10 @@ export default function LoginPage() {
             <Button
               variant="outline"
               className="w-full border-gray-300 hover:bg-gray-50"
+              disabled
             >
               <Github className="w-5 h-5 mr-2" />
-              GitHub
+              GitHub (Bientôt)
             </Button>
           </div>
 
